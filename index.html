@@ -25,6 +25,22 @@
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
     </main>
 
+    <!--MODAL PARA CADA TARJETA EN LA MISMA PATNTALLA-->
+    <div
+      id="modalPokemon"
+      class="fixed inset-0 bg-black/70 hidden justify-center items-center">
+      <div class="bg-slate-800 p-6 rounded-lg w-96 relative">
+        <button
+          id="btn_cerrar_Modal"
+          class="absolute top-2 right-3 text-white text-2xl cursor-pointer">
+          ✖
+        </button>
+
+        <div id="contenidoModal"></div>
+      </div>
+    </div>
+    <!--FIN DEL MODAL-->
+
     <script src="pokeAPI.js"></script>
   </body>
 </html>

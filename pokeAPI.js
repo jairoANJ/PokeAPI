@@ -1,3 +1,8 @@
+//Obtener los id de cada etiqueta que participa en el modal
+const modal = document.getElementById("modalPokemon");
+const contenedor_modal = document.getElementById("contenidoModal");
+const btn_cerra_modal = document.getElementById("btn_cerrar_Modal");
+
 //Capturar los elementos del DOM
 const btnCargar = document.getElementById("btnCargar");
 
@@ -64,6 +69,11 @@ async function obtenerPokemon() {
       tarjeta.appendChild(nombre);
 
       contenedor.appendChild(tarjeta);
+
+      //Parte del modal
+      tarjeta.addEventListener("click", () => {
+        obtenerDetallePokemon(idPokemon);
+      });
     }
   } catch (error) {
     //Mostraremos mensaje al usario si falla la red.
@@ -71,3 +81,46 @@ async function obtenerPokemon() {
 }
 
 btnCargar.addEventListener("click", obtenerPokemon);
+
+//Funcion asincrona para ontener los detalles de cada pokemon
+async function obtenerDetallePokemon(id) {
+  try {
+    const respuesta = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
+    const pokemon = await respuesta.json();
+
+    mostrarModal(pokemon);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function mostrarModal(pokemon) {
+  contenedor_modal.innerHTML = `
+
+        <img
+            src="${pokemon.sprites.front_default}"
+            class="mx-auto w-40">
+
+        <h2 class="text-3xl font-bold text-center capitalize">
+            ${pokemon.name}
+        </h2>
+
+        <p><strong>Altura:</strong> ${pokemon.height}</p>
+
+        <p><strong>Peso:</strong> ${pokemon.weight}</p>
+
+        <p><strong>Experiencia Base:</strong> ${pokemon.base_experience}</p>
+
+        <p><strong>Tipo:</strong>
+            ${pokemon.types.map((t) => t.type.name).join(", ")}
+        </p>`;
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+btn_cerra_modal.addEventListener("click", () => {
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+});
